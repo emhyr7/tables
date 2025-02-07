@@ -1,3 +1,10 @@
+`Table0` and `Table` both use the system's virtual memory allocators.
+it's possible to intergrate a custom memory allocator.
+
+`std::unorderd_map` for comparison:
+
+superflously many keys:
+- 4x less buckets for 32768 keys
 ```
 KEY_SIZE           : 32
 KEYS_COUNT         : 32768
@@ -20,4 +27,82 @@ BM_Table0             26.4 ns         26.8 ns     28000000
 BM_Table              37.1 ns         36.8 ns     18666667
 BM_unorderd_map       37.4 ns         37.7 ns     18666667
 umap.buckets_count(): 32768
+```
+
+many keys:
+- 4x less buckets for 1024 keys
+```
+KEY_SIZE           : 32
+KEYS_COUNT         : 1024
+DEFAULT_RESERVATION: 1073741824
+DEFAULT_EXTENT     : 1073741824
+DEFAULT_QUANTITY   : 256
+DEFAULT_GRANULARITY: 4096
+2025-02-06T21:45:55-08:00
+Running run
+Run on (16 X 4492 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x8)
+  L1 Instruction 32 KiB (x8)
+  L2 Unified 1024 KiB (x8)
+  L3 Unified 32768 KiB (x1)
+----------------------------------------------------------
+Benchmark                Time             CPU   Iterations
+----------------------------------------------------------
+BM_Table0             20.7 ns         20.9 ns     34461538
+BM_Table              19.2 ns         19.0 ns     34461538
+BM_unorderd_map       24.3 ns         24.6 ns     28000000
+umap.buckets_count(): 1024
+```
+
+few keys:
+- 8x less buckets for 256 keys
+```
+KEY_SIZE           : 32
+KEYS_COUNT         : 256
+DEFAULT_RESERVATION: 1073741824
+DEFAULT_EXTENT     : 1073741824
+DEFAULT_QUANTITY   : 64
+DEFAULT_GRANULARITY: 4096
+2025-02-06T21:48:20-08:00
+Running run
+Run on (16 X 4492 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x8)
+  L1 Instruction 32 KiB (x8)
+  L2 Unified 1024 KiB (x8)
+  L3 Unified 32768 KiB (x1)
+----------------------------------------------------------
+Benchmark                Time             CPU   Iterations
+----------------------------------------------------------
+BM_Table0             17.9 ns         18.0 ns     37333333
+BM_Table              16.5 ns         16.4 ns     44800000
+BM_unorderd_map       22.4 ns         22.5 ns     29866667
+umap.buckets_count(): 512
+```
+
+very few keys:
+- 4x less buckets for 64 keys
+```
+KEY_SIZE           : 32
+KEYS_COUNT         : 64
+DEFAULT_RESERVATION: 1073741824
+DEFAULT_EXTENT     : 1073741824
+DEFAULT_QUANTITY   : 16
+DEFAULT_GRANULARITY: 4096
+2025-02-06T21:51:41-08:00
+Running run
+Run on (16 X 4492 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x8)
+  L1 Instruction 32 KiB (x8)
+  L2 Unified 1024 KiB (x8)
+  L3 Unified 32768 KiB (x1)
+----------------------------------------------------------
+Benchmark                Time             CPU   Iterations
+----------------------------------------------------------
+BM_Table0             18.1 ns         18.0 ns     37333333
+BM_Table              16.1 ns         15.7 ns     40727273
+BM_unorderd_map       23.4 ns         23.5 ns     29866667
+umap.buckets_count(): 64
 ```

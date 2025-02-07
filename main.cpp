@@ -20,11 +20,11 @@
 #endif
 
 #define KEY_SIZE   (1ull << 5)
-#define KEYS_COUNT (1ull << 15)
+#define KEYS_COUNT (1ull << 6)
 
 #define DEFAULT_RESERVATION (1ull << 30)
 #define DEFAULT_EXTENT      DEFAULT_RESERVATION
-#define DEFAULT_QUANTITY    (1ull << 13)
+#define DEFAULT_QUANTITY    (1ull << 4)
 #define DEFAULT_GRANULARITY (4096ull)
 
 typedef unsigned long long Size, Address, U64;
