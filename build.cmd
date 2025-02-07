@@ -15,14 +15,14 @@ set MODE=debug
 if "%1" == "release" set MODE=release
 
 rem set compiler flags
-set CFLAGS=/std:c++17 /nologo /Oi /MP /GF /utf-8 /Z7 /arch:AVX512
+set CFLAGS=/std:c++17 /EHsc /MD /nologo /Oi /MP /GF /Z7 /arch:AVX512
 if "%MODE%" equ "debug" (
-	set CFLAGS=%CFLAGS% /Od /MDd
+	set CFLAGS=%CFLAGS% /Od
 ) else if "%MODE%" equ "release" (
-	set CFLAGS=%CFLAGS% /O2 /MT
+	set CFLAGS=%CFLAGS% /O2
 )
 
 rem set linker flags
-set LFLAGS=/DEBUG /INCREMENTAL:NO /OPT:REF /SUBSYSTEM:CONSOLE
+rem set LFLAGS=/DEFAULTLIB:MSVCRT
 
-clang-cl.exe %CFLAGS% /Fe:run 0.c -link %LFLAGS% || exit /b 1
+clang-cl.exe -fuse-ld=lld %CFLAGS% /Fe:run main.cpp /link %LFLAGS% || exit /b 1

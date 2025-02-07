@@ -19,9 +19,8 @@
 #pragma comment(lib, "benchmark.lib")
 #endif
 
-#define KEY_SIZE         (1ull << 5)
-#define KEYS_COUNT       (1ull << 15)
-#define ITERATIONS_COUNT (1ull << 20)
+#define KEY_SIZE   (1ull << 5)
+#define KEYS_COUNT (1ull << 15)
 
 #define DEFAULT_RESERVATION (1ull << 30)
 #define DEFAULT_EXTENT      DEFAULT_RESERVATION
@@ -351,7 +350,7 @@ Size *GetKeySizes(void)
 
 Table0 table0;
 Table  table;
-std::unordered_map<std::string_view, Index> table3;
+std::unordered_map<std::string_view, Index> umap;
 
 static void BM_Table0(benchmark::State &state)
 {
@@ -398,18 +397,25 @@ static void BM_unorderd_map(benchmark::State &state)
 		i %= KEYS_COUNT;
 		Byte *key  = keys + i * KEY_SIZE;
 		Size  size = sizes[i];
-		benchmark::DoNotOptimize(table[std::string_view{key, size}]);
+		benchmark::DoNotOptimize(umap[std::string_view{key, size}]);
 		++i;
 	}
-
-	printf("bucket_count: %llu\n", table.bucket_count());
 }
 
 BENCHMARK(BM_unorderd_map);
 
-void Setup(const benchmark::State &state)
+int main(int argc, char *argv[])
 {
-	printf("");
+	printf("KEY_SIZE           : %llu\n", KEY_SIZE);
+	printf("KEYS_COUNT         : %llu\n", KEYS_COUNT);
+	printf("DEFAULT_RESERVATION: %llu\n", DEFAULT_RESERVATION);
+	printf("DEFAULT_EXTENT     : %llu\n", DEFAULT_EXTENT);
+	printf("DEFAULT_QUANTITY   : %llu\n", DEFAULT_QUANTITY);
+	printf("DEFAULT_GRANULARITY: %llu\n", DEFAULT_GRANULARITY);
+	
+	::benchmark::Initialize(&argc, argv);
+	::benchmark::RunSpecifiedBenchmarks();
+	
+	printf("umap.buckets_count(): %llu\n", umap.bucket_count());
+	return 0;
 }
-
-BENCHMARK_MAIN();

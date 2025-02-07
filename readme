@@ -1,0 +1,23 @@
+```
+KEY_SIZE           : 32
+KEYS_COUNT         : 32768
+DEFAULT_RESERVATION: 1073741824
+DEFAULT_EXTENT     : 1073741824
+DEFAULT_QUANTITY   : 8192
+DEFAULT_GRANULARITY: 4096
+2025-02-06T21:29:08-08:00
+Running run
+Run on (16 X 4492 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x8)
+  L1 Instruction 32 KiB (x8)
+  L2 Unified 1024 KiB (x8)
+  L3 Unified 32768 KiB (x1)
+----------------------------------------------------------
+Benchmark                Time             CPU   Iterations
+----------------------------------------------------------
+BM_Table0             26.4 ns         26.8 ns     28000000
+BM_Table              37.1 ns         36.8 ns     18666667
+BM_unorderd_map       37.4 ns         37.7 ns     18666667
+umap.buckets_count(): 32768
+```
